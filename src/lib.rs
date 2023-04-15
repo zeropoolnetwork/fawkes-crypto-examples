@@ -69,6 +69,6 @@ mod tests {
 
         assert!(fibonacci_example(&parameters, 0));
         assert!(fibonacci_example(&parameters, 1));
-        assert!(fibonacci_example(&parameters, L - 1));
+        assert!(fibonacci_example(&parameters, 100));
     }
 }
