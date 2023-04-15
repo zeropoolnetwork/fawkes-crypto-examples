@@ -6,13 +6,11 @@ use fawkes_crypto::{
     core::signal::Signal,
 };
 
-const L: usize = 10;
-
 pub fn generate_parameters() -> Parameters<Bn256> {
     Parameters::<Bn256>::setup(10)
 }
 
-pub fn fib_example(parameters: &Parameters<Bn256>, n: usize) -> bool {
+pub fn fibonacci_example(parameters: &Parameters<Bn256>, n: usize) -> bool {
     fn circuit<C: CS>(public: CNum<C>, secret: (CNum<C>, CNum<C>)) {
         c_fibonacci::<C>(&secret.0, &secret.1, &public);
     }
@@ -67,11 +65,10 @@ mod tests {
 
     #[test]
     fn test_fib_example() {
-        let parameters = Parameters::<Bn256>::setup(10);
-        println!("Parameters generated");
+        let parameters = generate_parameters();
 
-        assert!(fib_example(&parameters, 0));
-        assert!(fib_example(&parameters, 1));
-        assert!(fib_example(&parameters, L - 1));
+        assert!(fibonacci_example(&parameters, 0));
+        assert!(fibonacci_example(&parameters, 1));
+        assert!(fibonacci_example(&parameters, L - 1));
     }
 }
