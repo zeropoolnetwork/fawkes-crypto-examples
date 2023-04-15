@@ -16,10 +16,8 @@ pub fn main() {
     alert("fibonacci_example(0)");
     fibonacci_example(&params, 0);
 
-
     alert("fibonacci_example(1)");
     fibonacci_example(&params, 1);
-
 
     alert("fibonacci_example(100)");
     fibonacci_example(&params, 100);
