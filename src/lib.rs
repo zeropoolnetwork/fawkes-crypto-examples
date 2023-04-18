@@ -6,16 +6,14 @@ use fawkes_crypto::{
     core::signal::Signal,
 };
 
+mod circuit;
+
 pub fn generate_parameters() -> Parameters<Bn256> {
     Parameters::<Bn256>::setup(10)
 }
 
 pub fn fibonacci_example(parameters: &Parameters<Bn256>, n: usize) -> bool {
-    fn circuit<C: CS>(public: CNum<C>, secret: (CNum<C>, CNum<C>)) {
-        c_fibonacci::<C>(&secret.0, &secret.1, &public);
-    }
-
-    let keys = setup::<_, _, _>(&parameters, circuit);
+    let keys = setup::<_, _, _>(&parameters, circuit::circuit);
     println!("Circuit finished");
 
     let seq = fibonacci_sequence(n + 1);
@@ -33,15 +31,11 @@ pub fn fibonacci_example(parameters: &Parameters<Bn256>, n: usize) -> bool {
         &keys.1,
         &Num::from(fib),
         &(Num::from(fib1), Num::from(fib2)),
-        circuit,
+        circuit::circuit,
     );
     println!("Proof generated");
 
     verifier::verify(&parameters, &keys.0, &snark_proof, &inputs)
-}
-
-fn c_fibonacci<C: CS>(a: &CNum<C>, b: &CNum<C>, c: &CNum<C>) {
-    (a + b).assert_eq(c);
 }
 
 fn fibonacci_sequence(len: usize) -> Vec<u64> {
