@@ -12,45 +12,36 @@ pub fn generate_parameters() -> Parameters<Bn256> {
     Parameters::<Bn256>::setup(10)
 }
 
-pub fn fibonacci_example(parameters: &Parameters<Bn256>, n: usize) -> bool {
-    let keys = setup::<_, _, _>(&parameters, circuit::circuit);
+const N: usize = 10;
+
+pub fn fibonacci_example(parameters: &Parameters<Bn256>) -> bool {
+    let keys = setup::<_, _, _>(&parameters, circuit::circuit::<_, { N }>);
     println!("Circuit finished");
 
-    let seq = fibonacci_sequence(n + 1);
-    let fib = seq[n];
-    let (fib1, fib2) = if n == 0 {
-        (0, 0)
-    } else if n == 1 {
-        (1, 0)
-    } else {
-        (seq[n - 1], seq[n - 2])
-    };
+    let num = fibonacci_number(N);
 
     let (inputs, snark_proof) = prover::prove(
         &parameters,
         &keys.1,
-        &Num::from(fib),
-        &(Num::from(fib1), Num::from(fib2)),
-        circuit::circuit,
+        &Num::from(N as u64),
+        &Num::from(num),
+        circuit::circuit::<_, { N }>,
     );
     println!("Proof generated");
 
     verifier::verify(&parameters, &keys.0, &snark_proof, &inputs)
 }
 
-fn fibonacci_sequence(len: usize) -> Vec<u64> {
-    let mut seq = Vec::with_capacity(len);
-
+fn fibonacci_number(n: usize) -> u64 {
     let (mut a, mut b) = (0, 1);
 
-    for _ in 0..len.max(1) {
-        seq.push(a);
+    for _ in 0..n-1 {
         let next = a + b;
         a = b;
         b = next;
     }
 
-    seq
+    b
 }
 
 #[cfg(test)]
@@ -61,8 +52,6 @@ mod tests {
     fn test_fib_example() {
         let parameters = generate_parameters();
 
-        assert!(fibonacci_example(&parameters, 0));
-        assert!(fibonacci_example(&parameters, 1));
-        assert!(fibonacci_example(&parameters, 100));
+        assert!(fibonacci_example(&parameters));
     }
 }
