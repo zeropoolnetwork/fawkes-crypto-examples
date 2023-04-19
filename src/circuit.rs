@@ -3,6 +3,7 @@ use fawkes_crypto::circuit::num::CNum;
 use fawkes_crypto::core::signal::Signal;
 use fawkes_crypto::ff_uint::Num;
 
+/// Simple circuit that computes the Nth fibonacci number.
 fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>, num: &CNum<C>) {
     let c_n: CNum<C> = n.derive_const(&Num::from(N as u64));
     n.assert_eq(&c_n);
@@ -18,6 +19,7 @@ fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>, num: &CNum<C>) {
     b.assert_eq(num);
 }
 
+/// Wrapper around `c_fibonacci` to make it usable fawkes-crypto's `setup` and `prove`.
 pub fn circuit<C: CS, const N: usize>(public: CNum<C>, secret: CNum<C>) {
     c_fibonacci::<C, { N }>(&public, &secret);
 }

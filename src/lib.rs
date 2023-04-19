@@ -8,10 +8,6 @@ use fawkes_crypto::{
 
 mod circuit;
 
-pub fn generate_parameters() -> Parameters<Bn256> {
-    Parameters::<Bn256>::setup(10)
-}
-
 const N: usize = 10;
 
 pub fn fibonacci_example(parameters: &Parameters<Bn256>) -> bool {
@@ -42,6 +38,10 @@ fn fibonacci_number(n: usize) -> u64 {
     }
 
     b
+}
+
+pub fn generate_parameters() -> Parameters<Bn256> {
+    Parameters::<Bn256>::setup(10)
 }
 
 #[cfg(test)]
