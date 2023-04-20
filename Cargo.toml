@@ -2,5 +2,6 @@
 members = [
     "fibonacci",
     "multiplier",
+    "poseidon",
     "wasm-example",
 ]

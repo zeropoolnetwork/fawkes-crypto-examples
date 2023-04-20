@@ -436,6 +436,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "fawkes-crypto-poseidon-example"
+version = "0.1.0"
+dependencies = [
+ "fawkes-crypto",
+ "once_cell",
+]
+
+[[package]]
 name = "fawkes-crypto_derive"
 version = "4.3.0"
 source = "git+https://github.com/zeropoolnetwork/fawkes-crypto.git#5149f041ab7fa9b037cf104c8360360da66db427"
