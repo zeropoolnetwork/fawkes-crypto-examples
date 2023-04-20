@@ -9,6 +9,10 @@ Implements a simple `a * b = c` circuit.
 ```
 cargo run -p fawkes-crypto-multiplier-example --release
 ```
+Optional arguments can be supplied:
+```
+cargo run -p fawkes-crypto-multiplier-example --release -- 5 3 15
+```
 
 ## fibonacci
 Implements a circuit that computes the N-th Fibonacci number.
@@ -28,4 +32,4 @@ Open http://localhost:8000 in your browser.
 
 
 ## Wasm notes
-The only thing needed to make `fawkes-crypto` Wasm-compatible is to enable the `wasm` feature. 
+The only thing needed to make `fawkes-crypto` Wasm-compatible is to enable the `wasm` feature.
