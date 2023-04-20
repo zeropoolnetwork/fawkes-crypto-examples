@@ -6,7 +6,18 @@ use fawkes_crypto::{
 mod circuit;
 
 fn main() {
-    let (a, b, c) = (2, 3, 6);
+    let a = std::env::args()
+        .nth(1)
+        .map(|s| s.parse::<u64>().unwrap())
+        .unwrap_or(2);
+    let b = std::env::args()
+        .nth(2)
+        .map(|s| s.parse::<u64>().unwrap())
+        .unwrap_or(3);
+    let c = std::env::args()
+        .nth(3)
+        .map(|s| s.parse::<u64>().unwrap())
+        .unwrap_or(a * b);
 
     let parameters = Parameters::<Bn256>::setup(10);
 

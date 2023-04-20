@@ -29,8 +29,3 @@ Open http://localhost:8000 in your browser.
 
 ## Wasm notes
 The only thing needed to make `fawkes-crypto` Wasm-compatible is to enable the `wasm` feature. 
-
-
-
-
-
