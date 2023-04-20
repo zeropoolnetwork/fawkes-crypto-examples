@@ -19,7 +19,7 @@ fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>, num: &CNum<C>) {
     b.assert_eq(num);
 }
 
-/// Wrapper around `c_fibonacci` to make it usable fawkes-crypto's `setup` and `prove`.
+/// Wrapper around `c_fibonacci` to make it usable in fawkes-crypto's `setup` and `prove` functions.
 pub fn circuit<C: CS, const N: usize>(public: CNum<C>, secret: CNum<C>) {
     c_fibonacci::<C, { N }>(&public, &secret);
 }
