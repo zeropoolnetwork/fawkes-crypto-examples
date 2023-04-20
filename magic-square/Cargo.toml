@@ -1,5 +1,5 @@
 [package]
-name = "wasm-example"
+name = "fawkes-crypto-magic-square-example"
 version = "0.1.0"
 authors = ["Dmitry Vdovin <voidxnull@gmail.com>"]
 edition = "2021"

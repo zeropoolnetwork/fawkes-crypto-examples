@@ -26,7 +26,7 @@ Implements a circuit that computes the Poseidon hash of a given input.
 cargo run -p fawkes-crypto-poseidon-example --release
 ```
 
-## wasm-example
+## magic-square
 
 The example uses wasm-pack to build the Wasm module. The module then is imported into a simple HTML page without any bundler.
 Build the Wasm module using wasm-pack and serve the example page that uses it:

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Square</title>
+  <script>
+    async function run() {
+      const wasm = await import("./pkg/fawkes_crypto_magic_square_example.js");
+      await wasm.default("./pkg/fawkes_crypto_magic_square_example_bg.wasm");
+
+      const magicConstantInput = parseInt(document.getElementById("magic-constant").value);
+      const magicSquare = Array.from(document.getElementsByClassName("square")).map(input => parseInt(input.value));
+
+      const res = wasm.magicCircle(magicConstantInput, new Uint32Array(magicSquare));
+
+      alert(`Result: ${res}`);
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .magic-square {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .square {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #000;
+      font-size: 24px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Magic Square</h1>
+  <div class="input-wrapper">
+    <label for="magic-constant">Magic Constant:</label>
+    <input type="number" id="magic-constant" value="15">
+  </div>
+  <div class="magic-square">
+    <input type="number" class="square" value="2">
+    <input type="number" class="square" value="7">
+    <input type="number" class="square" value="6">
+    <input type="number" class="square" value="9">
+    <input type="number" class="square" value="5">
+    <input type="number" class="square" value="1">
+    <input type="number" class="square" value="4">
+    <input type="number" class="square" value="3">
+    <input type="number" class="square" value="8">
+  </div>
+
+  <button onclick="run()">Check</button>
+</body>
+</html>
