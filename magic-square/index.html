@@ -5,26 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Magic Square</title>
   <script>
+    let wasm;
+    (async function init() {
+      wasm = await import('./pkg/fawkes_crypto_magic_square_example.js');
+      await wasm.default('./pkg/fawkes_crypto_magic_square_example_bg.wasm');
+      console.log('Wasm initialized');
+    })()
+
     function addLog(msg) {
-      const log = document.getElementById("log");
-      const entry = document.createElement("div");
+      const log = document.getElementById('log');
+      const entry = document.createElement('div');
       entry.classList.add('log-entry');
       entry.textContent = msg;
-      log.append(entry);
+      log.prepend(entry);
     }
 
+
     async function run() {
-      const log = document.getElementById("log");
-      log.innerHTML = "";
+      const log = document.getElementById('log');
+      log.innerHTML = '';
 
-      const wasm = await import("./pkg/fawkes_crypto_magic_square_example.js");
-      await wasm.default("./pkg/fawkes_crypto_magic_square_example_bg.wasm");
-
-      const magicConstantInput = parseInt(document.getElementById("magic-constant").value);
-      const magicSquare = Array.from(document.getElementsByClassName("square")).map(input => parseInt(input.value));
+      const magicConstantInput = parseInt(document.getElementById('magic-constant').value);
+      const magicSquare = Array.from(document.getElementsByClassName('square')).map(input => parseInt(input.value));
 
       wasm.magicCircle(magicConstantInput, new Uint32Array(magicSquare), addLog);
     }
+
   </script>
   <style>
     * {
