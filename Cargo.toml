@@ -1,23 +1,6 @@
-[package]
-name = "fawkes-crypto-examples"
-version = "0.1.0"
-edition = "2021"
-authors = ["Dmitry Vdovin <voidxnull@gmail.com>"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-fawkes-crypto = { git = "https://github.com/zeropoolnetwork/fawkes-crypto.git", default-features = false, features = ["plonk"] }
-
-[features]
-# These are needed if you want to use serde or borsh serialization with fawkes-crypto.
-default = ["serde_support", "borsh_support"]
-serde_support = ["fawkes-crypto/serde_support"]
-borsh_support = ["fawkes-crypto/borsh_support"]
-
-wasm = ["fawkes-crypto/wasm"]
-
 [workspace]
 members = [
-    "wasm-example"
+    "fibonacci",
+    "multiplier",
+    "wasm-example",
 ]

@@ -1,30 +1,20 @@
-mod circuit;
-
 use fawkes_crypto::{
     backend::plonk::{engines::Bn256, prover, setup::setup, verifier, Parameters},
     ff_uint::Num,
 };
-use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
+mod circuit;
 
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn main() {
+fn main() {
     let (a, b, c) = (2, 3, 6);
 
     let parameters = Parameters::<Bn256>::setup(10);
 
-    log("Compiling circuit...");
+    println!("Compiling circuit...");
     let keys = setup::<_, _, _>(&parameters, circuit::circuit);
-    log("Circuit finished");
+    println!("Circuit finished");
 
-    log("Generating proof...");
+    println!("Generating proof...");
     let (inputs, snark_proof) = prover::prove(
         &parameters,
         &keys.1,
@@ -32,15 +22,14 @@ pub fn main() {
         &(Num::from(a), Num::from(b)),
         circuit::circuit,
     );
-    log("Proof generated");
+    println!("Proof generated");
 
-    log("Verifying proof...");
+    println!("Verifying proof...");
     assert!(verifier::verify(
         &parameters,
         &keys.0,
         &snark_proof,
         &inputs
     ));
-
-    alert("Proof verified");
+    println!("Proof verified");
 }
