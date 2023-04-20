@@ -1,7 +1,7 @@
-use fawkes_crypto::circuit::cs::CS;
-use fawkes_crypto::circuit::num::CNum;
-use fawkes_crypto::core::signal::Signal;
-
+use fawkes_crypto::{
+    circuit::{cs::CS, num::CNum},
+    core::signal::Signal,
+};
 
 fn c_multiplier<C: CS>(a: &CNum<C>, b: &CNum<C>) -> CNum<C> {
     a * b

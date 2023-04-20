@@ -1,7 +1,8 @@
-use fawkes_crypto::circuit::cs::CS;
-use fawkes_crypto::circuit::num::CNum;
-use fawkes_crypto::core::signal::Signal;
-use fawkes_crypto::ff_uint::Num;
+use fawkes_crypto::{
+    circuit::{cs::CS, num::CNum},
+    core::signal::Signal,
+    ff_uint::Num,
+};
 
 /// Simple circuit that computes the Nth fibonacci number.
 fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
@@ -10,7 +11,7 @@ fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
     let mut a: CNum<C> = n.derive_const(&Num::from(0));
     let mut b: CNum<C> = n.derive_const(&Num::from(1));
 
-    for _ in 0..N-1 {
+    for _ in 0..N - 1 {
         let tmp = &a + &b;
         a = b;
         b = tmp;

@@ -1,6 +1,6 @@
-use fawkes_crypto::ff_uint::Num;
 use fawkes_crypto::{
     backend::plonk::{engines::Bn256, setup::setup, *},
+    ff_uint::Num,
 };
 
 mod circuits;
@@ -12,7 +12,7 @@ pub fn fibonacci_example(parameters: &Parameters<Bn256>) -> bool {
     fn fibonacci_number(n: usize) -> u64 {
         let (mut a, mut b) = (0, 1);
 
-        for _ in 0..n-1 {
+        for _ in 0..n - 1 {
             let next = a + b;
             a = b;
             b = next;
@@ -53,7 +53,6 @@ pub fn multiplier_example(parameters: &Parameters<Bn256>, a: u64, b: u64, c: u64
 
     verifier::verify(&parameters, &keys.0, &snark_proof, &inputs)
 }
-
 
 pub fn generate_parameters() -> Parameters<Bn256> {
     Parameters::<Bn256>::setup(10)

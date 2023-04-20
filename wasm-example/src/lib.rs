@@ -1,10 +1,10 @@
 mod utils;
 
+use fawkes_crypto_examples::{fibonacci_example, generate_parameters, multiplier_example};
 use wasm_bindgen::prelude::*;
-use fawkes_crypto_examples::{fibonacci_example, multiplier_example, generate_parameters};
 
 #[wasm_bindgen]
-extern {
+extern "C" {
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &str);
 }
