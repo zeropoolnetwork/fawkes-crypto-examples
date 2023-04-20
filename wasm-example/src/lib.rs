@@ -1,7 +1,7 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
-use fawkes_crypto_examples::{fibonacci_example, generate_parameters};
+use fawkes_crypto_examples::{fibonacci_example, multiplier_example, generate_parameters};
 
 #[wasm_bindgen]
 extern {
@@ -15,5 +15,8 @@ pub fn main() {
     let params = generate_parameters();
 
     log("Starting fibonacci_example");
-    fibonacci_example(&params);
+    assert!(fibonacci_example(&params));
+
+    log("Starting multiplier_example");
+    assert!(multiplier_example(&params, 2, 3, 6));
 }
