@@ -7,37 +7,41 @@ use fawkes_crypto::{
 };
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-
-    fn alert(s: &str);
-}
-
 #[wasm_bindgen(js_name = "magicCircle")]
-pub fn magic_square(sum: u32, magic_square: &[u32]) -> bool {
+pub fn magic_square(sum: u32, magic_square: &[u32], f: &js_sys::Function) {
+    let callback = |msg: &str| {
+        let this = JsValue::null();
+        let msg = JsValue::from(msg);
+        let _ = f.call1(&this, &msg);
+    };
+
     let parameters = Parameters::<Bn256>::setup(10);
 
-    let magic_square = magic_square
+    callback("Compiling circuit...");
+    let keys = setup::<_, _, _>(&parameters, circuit::circuit);
+    callback("Circuit finished");
+
+    callback(&format!(
+        "Generating proof. Public input: {}, Private input: {:?}",
+        sum, magic_square
+    ));
+
+    let n_magic_square = magic_square
         .iter()
         .map(|n| Num::from(*n))
         .collect::<SizedVec<_, 9>>();
 
-    log("Compiling circuit...");
-    let keys = setup::<_, _, _>(&parameters, circuit::circuit);
-    log("Circuit finished");
-
-    log("Generating proof...");
     let (inputs, snark_proof) = prover::prove(
         &parameters,
         &keys.1,
         &Num::from(sum),
-        &magic_square,
+        &n_magic_square,
         circuit::circuit,
     );
-    log("Proof generated");
 
-    log("Verifying proof...");
-    verifier::verify(&parameters, &keys.0, &snark_proof, &inputs)
+    callback(&format!("Proof: {}", &hex::encode(&snark_proof.0)));
+
+    callback(&format!("Verifying proof. Input: {:?}", &inputs));
+    let result = verifier::verify(&parameters, &keys.0, &snark_proof, &inputs);
+    callback(&format!("Verification result: {}", result));
 }

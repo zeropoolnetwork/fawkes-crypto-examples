@@ -422,6 +422,9 @@ name = "fawkes-crypto-magic-square-example"
 version = "0.1.0"
 dependencies = [
  "fawkes-crypto",
+ "hex 0.4.3",
+ "js-sys",
+ "serde_json",
  "wasm-bindgen",
 ]
 
