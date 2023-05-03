@@ -1,5 +1,5 @@
 use fawkes_crypto::{
-    circuit::{cs::CS, num::CNum},
+    circuit::{cs::CS, num::CNum, bool::CBool},
     core::signal::Signal,
     ff_uint::Num,
 };
@@ -8,27 +8,22 @@ use fawkes_crypto::{
 fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
     let mut a: CNum<C> = n.derive_const(&Num::from(0));
     let mut b: CNum<C> = n.derive_const(&Num::from(1));
-    let mut n: CNum<C> = n.clone();
-    let one: CNum<C> = n.derive_const(&Num::from(1));
 
-    for _ in 0..N {
-        let is_zero = n.is_zero();
+    let mut res = a.clone();
 
-        // if n.is_zero() {
-        //     continue;
-        // } else {
-        //     let tmp = &a + &b;
-        //     a = b;
-        //     b = tmp;
-        //     n = &n - &n.derive_const(&Num::from(1));
-        // }
+    for i in 1..N {
+        // Regular Fibonacci iteration.
         let tmp = &a + &b;
-        a = a.switch(&is_zero, &b);
-        b = b.switch(&is_zero, &tmp);
-        n = n.switch(&is_zero, &(&n - &one));
+        a = b.clone();
+        b = tmp;
+
+        // Check if n == i, and update res if so.
+        let i_const: CNum<C> = n.derive_const(&Num::from(i as u32));
+        let update_res: CBool<C> = n.is_eq(&i_const);
+        res = res.switch(&update_res, &a);
     }
 
-    a
+    res
 }
 
 /// Wrapper around `c_fibonacci` to make it usable in fawkes-crypto's `setup` and `prove` functions.
