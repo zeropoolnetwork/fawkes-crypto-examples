@@ -4,7 +4,7 @@ use fawkes_crypto::{
     ff_uint::Num,
 };
 
-/// Simple circuit that computes the Nth fibonacci number.
+/// Simple circuit that computes the nth fibonacci number.
 fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
     let mut a: CNum<C> = n.derive_const(&Num::from(0));
     let mut b: CNum<C> = n.derive_const(&Num::from(1));
