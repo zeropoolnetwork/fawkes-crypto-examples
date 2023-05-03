@@ -9,6 +9,7 @@ fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
     let mut a: CNum<C> = n.derive_const(&Num::from(0));
     let mut b: CNum<C> = n.derive_const(&Num::from(1));
     let mut n: CNum<C> = n.clone();
+    let one: CNum<C> = n.derive_const(&Num::from(1));
 
     for _ in 0..N {
         let is_zero = n.is_zero();
@@ -24,7 +25,6 @@ fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
         let tmp = &a + &b;
         a = a.switch(&is_zero, &b);
         b = b.switch(&is_zero, &tmp);
-        let one: CNum<C> = n.derive_const(&Num::from(1));
         n = n.switch(&is_zero, &(&n - &one));
     }
 
