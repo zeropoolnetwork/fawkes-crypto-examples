@@ -27,13 +27,14 @@ fn main() {
     let keys = setup::<_, _, _>(&parameters, circuit::circuit::<_, { N }>);
     println!("Circuit finished");
 
-    let num = fibonacci_number(N);
+    let n = 4;
+    let num = fibonacci_number(n);
 
     println!("Generating proof...");
     let (inputs, snark_proof) = prover::prove(
         &parameters,
         &keys.1,
-        &Num::from(N as u64),
+        &Num::from(n as u64),
         &Num::from(num),
         circuit::circuit::<_, { N }>,
     );
