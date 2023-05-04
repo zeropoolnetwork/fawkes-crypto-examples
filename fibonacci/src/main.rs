@@ -12,13 +12,13 @@ fn main() {
     fn fibonacci_number(n: usize) -> u64 {
         let (mut a, mut b) = (0, 1);
 
-        for _ in 0..n - 1 {
+        for _ in 1..=n {
             let next = a + b;
             a = b;
             b = next;
         }
 
-        b
+        a
     }
 
     let parameters = Parameters::<Bn256>::setup(10);

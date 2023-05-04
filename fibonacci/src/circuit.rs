@@ -20,7 +20,7 @@ fn c_fibonacci<C: CS, const N: usize>(n: &CNum<C>) -> CNum<C> {
         // Check if n == i, and update res if so.
         let i_const: CNum<C> = n.derive_const(&Num::from(i as u32));
         let update_res: CBool<C> = n.is_eq(&i_const);
-        res = res.switch(&update_res, &a);
+        res = a.switch(&update_res, &res);
     }
 
     res
